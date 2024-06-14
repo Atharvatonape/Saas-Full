@@ -6,5 +6,5 @@ def home_page_view(request, *args, **kwargs):
     myContext = {
         "page_title": my_title
     }
-    html_template = "base.html"
+    html_template = "home.html"
     return render(request, html_template,myContext)

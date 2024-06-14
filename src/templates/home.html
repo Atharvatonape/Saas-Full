@@ -1,14 +1,19 @@
+{% extends 'base.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block cont %} {{page_title}} {% endblock cont %}</title>
+    <title>{% block cont %} Document - {{block.super}}{% endblock cont %}</title>
 </head>
 <body>
     {% block content %}
-    <h1> "Hello World" </h1>
-    <p> {{request.user}} ,,</p>
+        <p> Hello Again </p>
+        {% include 'snippets/welcome-user-mssg.html' %}
+        {{block.super}}
     {% endblock content %}
+
+
 </body>
 </html>
