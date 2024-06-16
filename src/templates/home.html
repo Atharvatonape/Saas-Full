@@ -11,7 +11,8 @@
     {% block content %}
         <p> Hello Again </p>
         {% include 'snippets/welcome-user-mssg.html' %}
-        {{block.super}}
+        <p>Page Visits = {{page_visit_count}}</p>
+        <p>Total Visits = {{total_page_count}}</p>
     {% endblock content %}
 
 
