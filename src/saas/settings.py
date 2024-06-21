@@ -25,9 +25,12 @@ SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DJANGO_DEBUG", cast = bool)
+
 print(DEBUG)
+
 ALLOWED_HOSTS = [
-    ".railway.app"
+    ".railway.app",
+    '127.0.0.1'
 ]
 
 
@@ -85,6 +88,20 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+DATABASE_URL = config("DATABASE_URL", cast = str)
+
+if DATABASE_URL is not None:
+    import dj_database_url
+    DATABASES = {
+        "default": dj_database_url.config(
+            default= DATABASE_URL,
+            conn_max_age= 30,
+            conn_health_checks= True,
+        )
+    }
+
 
 
 # Password validation
