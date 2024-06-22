@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block cont %} {{page_title}} {% endblock cont %}</title>
+    {% include 'base/css.html' %}
 </head>
 <body>
+    {% include 'nav/navbar.html' %}
     {% block content %}
     <h1> "Hello World" </h1>
     <p> {{request.user}} ,,</p>
     {{total_page_count}}
     {{page_visit_count}}
     {% endblock content %}
+
+    {% include 'base/js.html' %}
 </body>
 </html>
