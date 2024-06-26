@@ -1,6 +1,13 @@
 .DS_Store
 /saas
 
+#ignore the vendor
+src/staticfiles/vendors
+
+#ignore local CDN
+local-cdn
+
+src/staticfiles/vendors
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
