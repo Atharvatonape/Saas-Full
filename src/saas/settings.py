@@ -16,6 +16,17 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+#Email Config
+
+EMAIL_HOST = config("EMAIL_HOST", cast =str, default = "smtp.gmail.com")
+EMAIL_PORT =config("EMAIL_PORT", cast =str, default = 587)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast =bool, default = True)
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast =bool, default = False)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast =str, default = None)
+EMAIL_HOST_PASSWORD =config("EMAIL_HOST_PASSWORD", cast =str, default = None)
+
+ADMINS = [('Tony', 'merlingaming1001@gmail.com')]
+MANAGERS=ADMINS
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -56,6 +67,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #whitenoise
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 
@@ -152,6 +166,12 @@ STATICFILES_DIRS = [
 # output for python manage.py collectstatic
 # local cdn
 STATIC_ROOT = BASE_DIR / "local-cdn"
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -4,3 +4,4 @@ python-decouple
 psycopg[binary]
 requests
 dj-database-url
+whitenoise
