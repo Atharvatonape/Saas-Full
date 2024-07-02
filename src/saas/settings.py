@@ -25,8 +25,8 @@ EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast =bool, default = False)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast =str, default = None)
 EMAIL_HOST_PASSWORD =config("EMAIL_HOST_PASSWORD", cast =str, default = None)
 
-ADMINS = [('Tony', 'merlingaming1001@gmail.com')]
-MANAGERS=ADMINS
+ADMIN_USER_NAME = config("ADMIN_USER_NAME", default = "Admin User")
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -41,8 +41,15 @@ print(DEBUG)
 
 ALLOWED_HOSTS = [
     ".railway.app",
-    '127.0.0.1'
+    '127.0.0.1',
+    "localhost"
 ]
+
+if DEBUG:
+    ALLOWED_HOSTS += [
+        '127.0.0.1',
+        "localhost"
+    ]
 
 
 # Application definition
@@ -57,6 +64,10 @@ INSTALLED_APPS = [
     #my apps
     'commando',
     'visits',
+    #third-party-apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +77,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    #allauth
+    "allauth.account.middleware.AccountMiddleware",
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #whitenoise
     "django.middleware.security.SecurityMiddleware",
@@ -137,6 +150,36 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#django allauth config
+LOGIN_REDIRECT_UL = "/"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = "True"
+ACCOUNT_EMAIL_VERIFICATION= "mandatory"
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ["CFE"]
+
+
+AUTHENTICATION_BACKENDS = [
+
+    # Neede to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': ''
+        }
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
