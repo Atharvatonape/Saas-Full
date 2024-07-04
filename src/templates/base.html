@@ -8,6 +8,7 @@
 </head>
 <body>
     {% include 'nav/navbar.html' %}
+    {% include 'base/messages.html' with messages=messages %}
     {% block content %}
     <h1> "Hello World" </h1>
     <p> {{request.user}} ,,</p>
