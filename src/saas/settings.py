@@ -155,7 +155,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 #django allauth config
-LOGIN_REDIRECT_UL = "/"
+LOGIN_REDIRECT_URL = "/"
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = "True"
 ACCOUNT_EMAIL_VERIFICATION= "mandatory"
@@ -173,17 +173,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '123',
-            'secret': '456',
-            'key': ''
+    'github': {
+            "VERIFIED_EMAIL": True
         }
     }
-}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
