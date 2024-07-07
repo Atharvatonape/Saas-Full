@@ -11,10 +11,12 @@ def home_view(request, *args, **kwargs):
     return about_view(request, *args, **kwargs)
 
 def about_view(request, *args, **kwargs):
+    user = request.user
     qs = PageVisit.objects.all()
     page_qs = PageVisit.objects.filter(path = request.path)
     my_title = "Main page"
     myContext = {
+        "Username": user.username,
         "page_title": my_title,
         "page_visit_count" :page_qs.count(),
         "total_page_count" : qs.count()

@@ -63,7 +63,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #my apps
     'commando',
+    "profiles",
     'visits',
+    'subscriptions',
     #third-party-apps
     "allauth_ui",
     'allauth',

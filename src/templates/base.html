@@ -11,7 +11,8 @@
     {% include 'base/messages.html' with messages=messages %}
     {% block content %}
     <h1> "Hello World" </h1>
-    <p> {{request.user}} ,,</p>
+    <p> {{request.user}} ,</p>
+    {{Username}}
     {{total_page_count}}
     {{page_visit_count}}
     {% endblock content %}
