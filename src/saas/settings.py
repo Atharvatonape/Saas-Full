@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "profiles",
     'visits',
     'subscriptions',
+    'customers',
     #third-party-apps
     "allauth_ui",
     'allauth',
