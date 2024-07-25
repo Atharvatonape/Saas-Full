@@ -39,6 +39,8 @@ DEBUG = config("DJANGO_DEBUG", cast = bool)
 
 print(DEBUG)
 
+BASE_URL = config("BASE_URL", default= None)
+
 ALLOWED_HOSTS = [
     ".railway.app",
     '127.0.0.1',
@@ -67,6 +69,7 @@ INSTALLED_APPS = [
     'visits',
     'subscriptions',
     'customers',
+    'checkouts',
     #third-party-apps
     "allauth_ui",
     'allauth',

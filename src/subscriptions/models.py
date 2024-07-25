@@ -3,6 +3,9 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.db import models
 import helpers.billing
+from django.urls import reverse
+
+
 User = settings.AUTH_USER_MODEL
 ALLOW_CUSTOM_GROUP = True
 # Create your models here.
@@ -68,6 +71,11 @@ class SubscriptionPrice(models.Model):
     class Meta:
         ordering = ['subscription__order','order', 'featured', '-updated']
 
+    def get_checkout_url(self):
+        return reverse("sub-price-checkout",
+                       kwargs = {"price_id": self.id}
+                    )
+
     @property
     def stripe_currency(self):
         return "usd"
@@ -128,6 +136,7 @@ class SubscriptionPrice(models.Model):
 class UserSubscription(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL,null=True, blank=True)
+    stripe_id = models.CharField(max_length=120, null=True, blank = True)
     active = models.BooleanField(default=True)
 
 # def user_sub_post_save(sender, instance, *args, **kwargs):

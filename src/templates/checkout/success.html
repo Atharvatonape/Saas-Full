@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+<title>{% block cont %} Document - {{block.super}}{% endblock cont %}</title>
+
+{% block content %}
+    <h1 class="text-lg font-medium"> Success Welcome!</h1>
+    <div class ="mb-12">
+        {{ subscription }}
+    </div>
+    <div class ="mb-12">
+        {{ checkout }}
+    </div>
+{% endblock content %}
