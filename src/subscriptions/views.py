@@ -1,6 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from subscriptions.models import SubscriptionPrice
 from django.urls import reverse
+
+@login_required
+def user_subscription_view(request,):
+    return render(request, 'subscriptions/user_detail_view.html')
 
 # Create your views here.
 def subscription_price_view(request, interval ="month"):

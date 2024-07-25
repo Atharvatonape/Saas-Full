@@ -134,10 +134,40 @@ class SubscriptionPrice(models.Model):
 
 
 class UserSubscription(models.Model):
+
+    class SubscriptionStatus(models.TextChoices):
+        ACTIVE = 'active', 'Active'
+        TRIALING = 'trialing', 'Trialing'
+        INCOMPLETE  = 'incomplete', 'Incomplete'
+        INCOMPLETE_EXPIRED = 'incomplete_expired', 'Incomplete Expired'
+        PAST_DUE = 'past_due', 'Past Due'
+        CANCELLED = 'canceled', 'Canceled'
+        UNPAID = 'unpaid', 'Unpaid'
+        PAUSED = 'paused', 'Paused'
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL,null=True, blank=True)
     stripe_id = models.CharField(max_length=120, null=True, blank = True)
     active = models.BooleanField(default=True)
+    user_cancelled = models.BooleanField(default=False)
+    original_period_start = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    current_period_start = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    current_period_end = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    status = models.CharField(max_length=120, null=True, blank=True, choices=SubscriptionStatus.choices)
+    @property
+    def billing_cycle_anchor(self):
+        """
+        option to start subscription later in stripe
+        """
+        if not self.current_period_end:
+            return
+        return int(self.current_period_end.timestamp())
+
+    def save(self, *args, **kwargs):
+        if (self.original_period_start is None and self.current_period_start is not None):
+            self.original_period_start = self.current_period_start
+        super().save(*args, **kwargs)
+
 
 # def user_sub_post_save(sender, instance, *args, **kwargs):
 #     user_sub_instance = instance
