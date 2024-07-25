@@ -60,12 +60,21 @@ def checkout_finalize_view(request):
         sub_obj= None
 
     _user_sub_exists = False
+    updated_sub_options = {
+        "subscription" : sub_obj,
+        "stripe_id": sub_stripe_id,
+        "user_cancelled": False
+    }
+
     try:
         _user_sub_obj =     UserSubscription.objects.get(user = user_obj)
         _user_sub_exists = True
         print("it exist already")
     except UserSubscription.DoesNotExist:
-        _user_sub_obj = UserSubscription.objects.create(user = user_obj, subscription = sub_obj, stripe_id = sub_stripe_id)
+        _user_sub_obj = UserSubscription.objects.create(
+            user = user_obj,
+            **updated_sub_options
+            )
     except:
         _user_sub_obj = None
 
@@ -74,11 +83,15 @@ def checkout_finalize_view(request):
 
     if _user_sub_exists :
         #cancel old sub
-
-
+        old_stripe_id = _user_sub_obj.stripe_id
+        if old_stripe_id is not None:
+            try:
+                helpers.billing.cancel_subscription(old_stripe_id, reason="Auto Ended with new membership", feedback="other")
+            except:
+                pass
         #assign new sub
-        _user_sub_obj.subscription = sub_obj
-        _user_sub_obj.stripe_id = sub_stripe_id
+        for k, v in updated_sub_options.item():
+            setattr( _user_sub_obj, k, v)
         _user_sub_obj.save()
     context = {
 

@@ -92,8 +92,19 @@ def get_checkout_subscription(stripe_id, raw=True):
     response = stripe.Subscription.retrieve(
         stripe_id
         )
+    if raw:
+        return response
+    return response.url
 
 
+def cancel_subscription(stripe_id, reason = "", feedback = "" ,raw=True):
+    response = stripe.Subscription.cancel(
+        stripe_id,
+        cancellation_details={
+            "comment": reason,
+            "feedback": feedback
+        }
+        )
     if raw:
         return response
     return response.url
