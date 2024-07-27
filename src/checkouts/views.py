@@ -68,9 +68,9 @@ def checkout_finalize_view(request):
         "subscription" : sub_obj,
         "stripe_id": sub_stripe_id,
         "user_cancelled": False,
-        **subscription_data
+        **subscription_data,
         }
-
+    
     try:
         _user_sub_obj =     UserSubscription.objects.get(user = user_obj)
         _user_sub_exists = True
@@ -81,10 +81,11 @@ def checkout_finalize_view(request):
             **updated_sub_options
             )
     except:
+        print("it is creating")
         _user_sub_obj = None
 
     if None in [sub_obj, user_obj, _user_sub_obj]:
-        print(sub_obj, user_obj, _user_sub_obj)
+        print("sub_obj ",sub_obj,"user_obj ", user_obj,"_user_sub_obj ", _user_sub_obj)
         return HttpResponseBadRequest( "There was an error with your account please contact us")
 
     if _user_sub_exists :
