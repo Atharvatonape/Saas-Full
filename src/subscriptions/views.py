@@ -4,6 +4,7 @@ from subscriptions.models import SubscriptionPrice, UserSubscription
 from django.urls import reverse
 import helpers.billing
 from django.contrib import messages
+from subscriptions import utils as sub_utils
 
 @login_required
 def user_subscription_view(request,):
@@ -11,12 +12,12 @@ def user_subscription_view(request,):
     sub_data = user_sub_obj.serialize()
     if request.method == "POST":
         print("refreh sub")
-        if user_sub_obj.stripe_id:
-            sub_data = helpers.billing.get_checkout_subscription(user_sub_obj.stripe_id, raw=False)
-            for k,v in sub_data.items():
-                setattr(user_sub_obj, k,v)
-            user_sub_obj.save()
-            return redirect(user_sub_obj.get_absolute_url())
+        finished = sub_utils.refresf_active_user_subscription(user_ids=[request.user.id])
+        if finished:
+            messages.success(request, "Your plan details has been refreshed.")
+        else:
+            messages.error(request, "Your plan details have not been refreshed.")
+        return redirect(user_sub_obj.get_absolute_url())
     return render(request, 'subscription/user_detail_view.html',
                   {
                       "subscription": user_sub_obj
@@ -24,27 +25,21 @@ def user_subscription_view(request,):
 
 @login_required
 def user_subscription_cancel_view(request,):
-    user_sub_obj , created = UserSubscription.objects.get_or_create(user=request.user)
-    sub_data = user_sub_obj.serialize()
+    user_sub_obj, created = UserSubscription.objects.get_or_create(user=request.user)
     if request.method == "POST":
-        print("refreh sub")
         if user_sub_obj.stripe_id and user_sub_obj.is_active_status:
             sub_data = helpers.billing.cancel_subscription(
                 user_sub_obj.stripe_id,
-                cancel_at_period_end = True,
-                reason ="User wanted to cancel",
+                reason="User wanted to end",
                 feedback="other",
-                raw=False
-                )
+                cancel_at_period_end=True,
+                raw=False)
             for k,v in sub_data.items():
-                setattr(user_sub_obj, k,v)
+                setattr(user_sub_obj, k, v)
             user_sub_obj.save()
-            messages.success(request, "Your plan has been cancelled")
+            messages.success(request, "Your plan has been cancelled.")
         return redirect(user_sub_obj.get_absolute_url())
-    return render(request, 'subscription/user_cancel_view.html',
-                  {
-                      "subscription": user_sub_obj
-                  })
+    return render(request, 'subscription/user_cancel_view.html', {"subscription": user_sub_obj})
 
 # Create your views here.
 def subscription_price_view(request, interval ="month"):
