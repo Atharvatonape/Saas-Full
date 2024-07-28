@@ -141,6 +141,7 @@ class SubscriptionStatus(models.TextChoices):
         CANCELLED = 'canceled', 'Canceled'
         UNPAID = 'unpaid', 'Unpaid'
         PAUSED = 'paused', 'Paused'
+
 class UserSubscription(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)

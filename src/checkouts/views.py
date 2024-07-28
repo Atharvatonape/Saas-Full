@@ -6,6 +6,8 @@ import helpers.billing
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseBadRequest
+from django.contrib import messages
+
 
 User = get_user_model()
 BASE_URL = settings.BASE_URL
@@ -70,7 +72,7 @@ def checkout_finalize_view(request):
         "user_cancelled": False,
         **subscription_data,
         }
-    
+
     try:
         _user_sub_obj =     UserSubscription.objects.get(user = user_obj)
         _user_sub_exists = True
@@ -104,4 +106,5 @@ def checkout_finalize_view(request):
     context = {
 
     }
+    messages.success(request, "Thankyou for joining us.")
     return render(request, "checkout/success.html", context)
