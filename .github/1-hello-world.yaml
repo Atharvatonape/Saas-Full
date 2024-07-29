@@ -2,8 +2,6 @@ name: 1 - Hello World Github Actions
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron:'30 15 * * *'
   push: #git push
     branch:
      -dev
