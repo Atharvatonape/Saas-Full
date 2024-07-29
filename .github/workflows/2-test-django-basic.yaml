@@ -5,6 +5,7 @@ on:
   push:
     branch:
       - dev
+      - main
 
 jobs:
   test:

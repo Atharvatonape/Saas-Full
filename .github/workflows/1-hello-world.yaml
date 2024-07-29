@@ -5,6 +5,7 @@ on:
   push: #git push
     branch:
      - dev
+     - main
 
 jobs:
   hello:
