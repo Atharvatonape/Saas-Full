@@ -2,10 +2,10 @@ name: 4 - Test Django Actions Secret Database URl
 
 on:
   workflow_dispatch:
-  push:
-    branch:
-      - dev
-      - main
+  # push:
+  #   branch:
+  #     - dev
+  #     - main
 
 jobs:
   test:

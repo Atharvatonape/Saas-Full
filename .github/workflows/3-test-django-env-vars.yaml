@@ -2,10 +2,10 @@ name: 3 - Test Django Basic
 
 on:
   workflow_dispatch:
-  push:
-    branch:
-      - dev
-      - main
+  # push:
+  #   branch:
+  #     - dev
+  #     - main
 
 jobs:
   test:
