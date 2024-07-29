@@ -8,10 +8,10 @@ from subscriptions.models import Subscription, UserSubscription, SubscriptionSta
 def refresh_active_users_subscriptions(
         user_ids=None,
         active_only=True,
-        days_left=0,
-        days_ago=0,
-        day_start=0,
-        day_end=0,
+        days_left=-1,
+        days_ago=-1,
+        day_start=-1,
+        day_end=-1,
         verbose=False):
     qs = UserSubscription.objects.all()
     if active_only:
