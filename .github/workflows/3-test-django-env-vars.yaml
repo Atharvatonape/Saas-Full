@@ -1,4 +1,4 @@
-name: 2 - Test Django Basic
+name: 3 - Test Django Basic
 
 on:
   workflow_dispatch:
@@ -25,8 +25,8 @@ jobs:
           python -m pip install -r requirements.txt
       - name: Create a secret key
         run:
-          my_gen_key = $(opnessl rand -base64 32)
-          echo "DJANGO_SECRET_KEY = $MY_GEN_KEY" >>$GITHUB_ENV
+          MY_GEN_KEY = $(opnessl rand -base64 32)
+          echo "DJANGO_SECRET_KEY=$MY_GEN_KEY" >>$GITHUB_ENV
       - name: Django Tests
         working-directory: ./src
         run: |
