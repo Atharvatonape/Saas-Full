@@ -25,7 +25,7 @@ jobs:
           python -m pip install -r requirements.txt
       - name: Create a secret key
         run:
-          MY_GEN_KEY = $(openssl rand -base64 32)
+          MY_GEN_KEY=$(openssl rand -base64 32)
           echo "DJANGO_SECRET_KEY=$MY_GEN_KEY" >>$GITHUB_ENV
       - name: Django Tests
         working-directory: ./src
