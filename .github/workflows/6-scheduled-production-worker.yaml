@@ -51,6 +51,12 @@ jobs:
           MY_GEN_KEY=$(openssl rand -base64 32)
           echo "DJANGO_SECRET_KEY=$MY_GEN_KEY" >>$GITHUB_ENV
 
+      - name: Django Migrate Database
+        if: github.event.schedule != '0 4 1 * *'
+        working-directory: ./src
+        run: |
+          python manage.py migrate
+
       - name: Django Users sync Stripe Subscription
         if: github.event.schedule != '0 4 1 * *'
         working-directory: ./src

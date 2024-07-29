@@ -52,6 +52,12 @@ jobs:
           python -m pip install pip --upgrade
           python -m pip install -r requirements.txt
 
+      - name: Django Migrate Database
+        if: github.event.schedule != '0 4 1 * *'
+        working-directory: ./src
+        run: |
+          python manage.py migrate
+
       - name: Create a secret key
         run:
           MY_GEN_KEY=$(openssl rand -base64 32)
