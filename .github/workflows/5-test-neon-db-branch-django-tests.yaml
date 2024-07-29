@@ -44,7 +44,7 @@ jobs:
 
       - name: Database url env val for new Github Actions branch
         run: |
-          MY_NEON_CONN_STRING  = $(neonctl connection-string --branch  "${{env.NEON_GITHUB_BRANCH}}" --parent "${{env.NEON_PROD_BRANCH}}" --project-id "${{ env.NEON_PROJECT_ID}}")
+          MY_NEON_CONN_STRING=$(neonctl connection-string --branch  "${{env.NEON_GITHUB_BRANCH}}" --project-id "${{ env.NEON_PROJECT_ID}}")
           echo "DATABASE_URL=$MY_NEON_CONN_STRING" >>$GITHUB_ENV
 
       - name: Install Requirements
