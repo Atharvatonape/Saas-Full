@@ -19,7 +19,8 @@ from django.urls import path, include
 from auth import views as auth_views
 from subscriptions import views as subscriptions_views
 from checkouts import views as checkout_views
-
+from landing import views as landing_views
+from dashboard import views as dashboard_views
 from .views import (
     home_view,
     about_view,
@@ -31,11 +32,12 @@ from .views import (
 
 urlpatterns = [
     path('about/', about_view),
+    path('dashboard/', dashboard_views.dashboard_view),
     path('login/', auth_views.login_view),
     path('register/', auth_views.register_view),
     path('pricing/', subscriptions_views.subscription_price_view, name="pricing"),
     path('pricing/<str:interval>/', subscriptions_views.subscription_price_view, name="pricing_interval"),
-    path('', home_view, name= "home"),
+    path('', landing_views.landing_dashboard_page_view, name= "home"),
 
     path("checkout/sub-price/<int:price_id>/",
          checkout_views.product_price_redirect_view,
