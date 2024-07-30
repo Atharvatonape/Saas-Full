@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+<title>{% block cont %} Build your SAAS now - {{block.super}}{% endblock cont %}</title>
+
+{% block content %}
+{% include 'landing/hero.html' %}
+{% include 'landing/features.html' %}
+{% include 'landing/proof.html' %}
+
+{% endblock content %}
+
+
