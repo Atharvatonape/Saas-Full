@@ -1,4 +1,4 @@
-# Set the python version as a build-time argument
+ # Set the python version as a build-time argument
 # with Python 3.12 as the default
 ARG PYTHON_VERSION=3.12-slim-bullseye
 FROM python:${PYTHON_VERSION}
@@ -13,8 +13,8 @@ ENV PATH=/opt/venv/bin:$PATH
 RUN pip install --upgrade pip
 
 # Set Python-related environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Install os dependencies for our mini vm
 RUN apt-get update && apt-get install -y \
